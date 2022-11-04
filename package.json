@@ -1,0 +1,28 @@
+{
+  "name": "idlegame",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "start": "nodemon server.js",
+  "scripts": {
+    "front":"parcel watch --target frontend"
+  },
+  "dependencies": {
+    "cookie-session": "2.0.0",
+    "ejs": "3.1.8",
+    "express": "4.18.2",
+    "longjohn": "0.2.12",
+    "morgan": "1.10.0",
+    "nodemon": "^2.0.20",
+    "parcel": "^2.7.0",
+    "path": "0.12.7",
+    "require-all": "3.0.0",
+    "winston": "3.8.2"
+  },
+  "targets": {
+    "frontend": {
+      "source": "src/main.js",
+      "distDir": "static/js"
+    }
+  }
+}
