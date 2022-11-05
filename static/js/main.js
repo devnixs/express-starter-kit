@@ -533,21 +533,28 @@ function hmrAcceptRun(bundle, id) {
 
 },{}],"gLLPy":[function(require,module,exports) {
 const btn = document.querySelector(".js-make-api-call");
-btn.onclick = async (event)=>{
-    const originalClassName = btn.className;
-    const originalContent = btn.textContent;
-    btn.className = "btn btn-info";
-    btn.textContent = "Loading...";
+const load = async ()=>{
     var res = await fetch("/api/identity", {
         method: "POST"
     });
     var data = await res.json();
     console.log("data", data);
-    await new Promise((resolve)=>setTimeout(resolve, 1000));
-    alert("Received the following data from the sever: " + JSON.stringify(data));
+    document.querySelector(".js-character").innerHTML = JSON.stringify(data, null, 3);
+};
+const attack = async ()=>{
+    const originalClassName = btn.className;
+    const originalContent = btn.textContent;
+    btn.className = "btn btn-info";
+    btn.textContent = "Loading...";
+    await fetch("/api/attack", {
+        method: "POST"
+    });
+    await load();
     btn.className = originalClassName;
     btn.textContent = originalContent;
 };
+btn.onclick = attack;
+load();
 
 },{}]},["dV42q","gLLPy"], "gLLPy", "parcelRequireeea1")
 

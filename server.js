@@ -8,7 +8,7 @@ const session = require("express-session");
 
 const __DEV__ = process.env.NODE_ENV == "development";
 
-const { Character } = require("./models/character");
+const { Character, initCharacter } = require("./models/character");
 
 winston.add(
   new winston.transports.Console({
@@ -24,11 +24,12 @@ const app = express();
 
 app.use(
   session({
+    resave: false,
+    saveUninitialized: true,
     secret: "idlegame",
-    cookie: { httpOnly: true  },
+    cookie: { httpOnly: true },
   })
 );
-
 
 app.set("view engine", "ejs");
 app.set("views", path.resolve(__dirname, "./views"));
@@ -40,27 +41,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(async (req, res, next) => {
-  if (!req.session.character) {
-    console.log("Creating session");
-
-    const character = Character.build({
-      Class: "warrior",
-      Name: "bob",
-      Level: 1,
-      Experience: 0,
-      Strength: 10,
-      AttackSpeed: 1,
-      HitPoints: 100,
-      Stage: 1,
-      TotalMonsterKilled: 0,
-      HighestMonsterKilled: null,
-    });
-
-    await character.save();
-
-    console.log(character);
-
-    req.session.character = character;
+  if (!req.session.characterId) {
+    const character = await initCharacter();
+    req.session.characterId = character.id;
   }
 
   next();

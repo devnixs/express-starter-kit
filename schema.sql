@@ -1,5 +1,7 @@
 BEGIN;
 
+drop table if exists "item_character", "fight", "character";
+
 /* create table "account"
 (
     "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
@@ -19,11 +21,7 @@ create table "character"
     "hit_points" INTEGER not null default 100,
     "stage" INTEGER not null default 1,
     "total_monster_killed" INTEGER not null default 0,
-    "highest_monster_killed" INTEGER null,
-
-   CONSTRAINT FK_Character_Account
-      FOREIGN KEY("account_id")
-	  REFERENCES "account"("id")
+    "highest_monster_killed" INTEGER null
 );
 
 create table "item_character"
@@ -40,7 +38,9 @@ create table "fight"
     "character_id" INTEGER not null REFERENCES "character"("id"),
     "monster_id" INTEGER not null,
     "date" timestamptz not null,
-    "outcome" text not null
+    "outcome" text not null,
+    "character_hp" integer not null,
+    "monster_hp" integer not null
 );
 
 COMMIT;

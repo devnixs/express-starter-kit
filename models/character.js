@@ -1,5 +1,7 @@
 const { Sequelize, DataTypes, Model } = require("sequelize");
 const { sequelize } = require("../database");
+const { Fight, initFight } = require("./fight");
+const { monsters } = require("./monster");
 
 // Option 1: Passing a connection URI
 class Character extends Model {}
@@ -11,43 +13,43 @@ Character.init(
       type: DataTypes.INTEGER,
       allowNull: false,
     }, */
-    Class: {
+    class: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    Name: {
+    name: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    Level: {
+    level: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    Experience: {
+    experience: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    Strength: {
+    strength: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    AttackSpeed: {
+    attackSpeed: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    HitPoints: {
+    hitPoints: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    Stage: {
+    stage: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    TotalMonsterKilled: {
+    totalMonsterKilled: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    HighestMonsterKilled: {
+    highestMonsterKilled: {
       type: DataTypes.INTEGER,
       allowNull: true,
     },
@@ -68,5 +70,25 @@ Character.init(
   }
 );
 
-module.exports = { Character };
+const initCharacter = async () => {
+  const character = Character.build({
+    class: "warrior",
+    name: "bob",
+    level: 1,
+    experience: 0,
+    strength: 10,
+    attackSpeed: 1,
+    hitPoints: 100,
+    stage: 1,
+    totalMonsterKilled: 0,
+    highestMonsterKilled: null,
+  });
 
+  await character.save();
+
+  await initFight(character);
+
+  return character;
+};
+
+module.exports = { Character, initCharacter };

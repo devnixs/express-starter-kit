@@ -1,7 +1,7 @@
 const monsters = [
   {
     id: 1,
-    hp: 100,
+    hitPoints: 100,
     stage: 1,
     name: "Bouftou",
     armor: 0,
@@ -16,8 +16,8 @@ const monsters = [
     ],
   },
   {
-    id: 1,
-    hp: 50,
+    id: 2,
+    hitPoints: 50,
     stage: 1,
     name: "Blob",
     armor: 0,
@@ -32,3 +32,5 @@ const monsters = [
     ],
   },
 ];
+
+module.exports = {monsters};
