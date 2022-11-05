@@ -5,19 +5,23 @@
   "license": "MIT",
   "start": "nodemon server.js",
   "scripts": {
-    "front": "parcel watch --target frontend"
+    "front": "parcel watch --target frontend",
+    "start": "nodemon server.js"
   },
   "dependencies": {
     "cookie-session": "2.0.0",
     "dotenv": "^16.0.3",
     "ejs": "3.1.8",
     "express": "4.18.2",
+    "express-session": "^1.17.3",
     "longjohn": "0.2.12",
     "morgan": "1.10.0",
     "nodemon": "^2.0.20",
     "parcel": "^2.7.0",
     "path": "0.12.7",
+    "pg": "^8.8.0",
     "require-all": "3.0.0",
+    "sequelize": "6.25.3",
     "winston": "3.8.2"
   },
   "targets": {

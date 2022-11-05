@@ -6,7 +6,7 @@ btn.onclick = async (event) => {
   btn.className = "btn btn-info";
   btn.textContent = "Loading...";
 
-  var res = await fetch("/api/test", { method: "POST" });
+  var res = await fetch("/api/identity", { method: "POST" });
   var data = await res.json();
   console.log("data", data);
 

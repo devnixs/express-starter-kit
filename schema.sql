@@ -1,44 +1,46 @@
-create table "Account"
-(
-    "Id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    "TotalMonsterKilled"  integer not null default 0
-);
+BEGIN;
 
-create table "Character"
+/* create table "account"
 (
-    "Id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    "Class" text not null,
-    "AccountId" INTEGER not null,
-    "Name" text not null,
-    "Level" INTEGER not null default 1,
-    "Experience" INTEGER not null default 0,
-    "Strength" INTEGER not null default 1,
-    "AttackSpeed" INTEGER not null default 1,
-    "HitPoints" INTEGER not null default 100,
-    "Stage" INTEGER not null default 1,
-    "TotalMonsterKilled" INTEGER not null default 0,
-    "HighestMonsterKilled" INTEGER null,
+    "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    "total_monster_killed" integer not null default 0
+); */
+
+create table "character"
+(
+    "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    "class" text not null,
+/*     "account_id" INTEGER not null, */
+    "name" text not null,
+    "level" INTEGER not null default 1,
+    "experience" INTEGER not null default 0,
+    "strength" INTEGER not null default 1,
+    "attack_speed" INTEGER not null default 1,
+    "hit_points" INTEGER not null default 100,
+    "stage" INTEGER not null default 1,
+    "total_monster_killed" INTEGER not null default 0,
+    "highest_monster_killed" INTEGER null,
 
    CONSTRAINT FK_Character_Account
-      FOREIGN KEY("AccountId")
-	  REFERENCES "Account"("Id")
+      FOREIGN KEY("account_id")
+	  REFERENCES "account"("id")
 );
 
-create table "ItemCharacter"
+create table "item_character"
 (
-    "Id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    "ItemId" integer not null,
-    "CharacterId" INTEGER not null REFERENCES "Character"("Id"),
-    "Position" text not null
+    "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    "item_id" integer not null,
+    "character_id" INTEGER not null REFERENCES "character"("id"),
+    "position" text not null
 );
 
-create table "Fight"
+create table "fight"
 (
-    "Id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    "CharacterId" INTEGER not null REFERENCES "Character"("Id"),
-    "MonsterId" INTEGER not null,
-    "Date" timestamptz not null,
-    "Outcome" text not null
-)
+    "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    "character_id" INTEGER not null REFERENCES "character"("id"),
+    "monster_id" INTEGER not null,
+    "date" timestamptz not null,
+    "outcome" text not null
+);
 
-
+COMMIT;

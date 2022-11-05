@@ -538,7 +538,7 @@ btn.onclick = async (event)=>{
     const originalContent = btn.textContent;
     btn.className = "btn btn-info";
     btn.textContent = "Loading...";
-    var res = await fetch("/api/test", {
+    var res = await fetch("/api/identity", {
         method: "POST"
     });
     var data = await res.json();

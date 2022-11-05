@@ -3,9 +3,12 @@ const path = require("path");
 const express = require("express");
 const winston = require("winston");
 const require_all = require("require-all");
-require('dotenv').config();
+require("dotenv").config();
+const session = require("express-session");
 
 const __DEV__ = process.env.NODE_ENV == "development";
+
+const { Character } = require("./models/character");
 
 winston.add(
   new winston.transports.Console({
@@ -19,20 +22,49 @@ winston.add(
 
 const app = express();
 
+app.use(
+  session({
+    secret: "idlegame",
+    cookie: { httpOnly: true  },
+  })
+);
+
+
 app.set("view engine", "ejs");
 app.set("views", path.resolve(__dirname, "./views"));
 app.set("x-powered-by", false);
 app.locals.__DEV__ = __DEV__;
 
-app.use(
-  require("cookie-session")({
-    keys: [process.env.COOKIE_SECRET || "secretxsz"],
-    maxAge: Number(process.env.COOKIE_AGE) || 30 * 86400000,
-  })
-);
 app.use(express.static(path.resolve(__dirname, "./static")));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use(async (req, res, next) => {
+  if (!req.session.character) {
+    console.log("Creating session");
+
+    const character = Character.build({
+      Class: "warrior",
+      Name: "bob",
+      Level: 1,
+      Experience: 0,
+      Strength: 10,
+      AttackSpeed: 1,
+      HitPoints: 100,
+      Stage: 1,
+      TotalMonsterKilled: 0,
+      HighestMonsterKilled: null,
+    });
+
+    await character.save();
+
+    console.log(character);
+
+    req.session.character = character;
+  }
+
+  next();
+});
 
 if (__DEV__) {
   // Better stack traces
@@ -85,8 +117,8 @@ app.get("/", (req, res) => {
 
 // Return the not found page otherwise
 app.use((req, res) => {
-	res.statusCode = 404;
-	res.render("404");
+  res.statusCode = 404;
+  res.render("404");
 });
 
 // if something fails, return the error page

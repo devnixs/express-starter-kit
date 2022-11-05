@@ -1,9 +1,9 @@
 "use strict";
 
 module.exports = (app) => {
-  app.post("/api/test", async (req, res, next) => {
+  app.post("/api/identity", async (req, res, next) => {
     try {
-      res.json({ foo: "bar" });
+      res.json({ character: req.session.character });
     } catch (err) {
       next(err);
     }
