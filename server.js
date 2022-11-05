@@ -3,6 +3,7 @@ const path = require("path");
 const express = require("express");
 const winston = require("winston");
 const require_all = require("require-all");
+require('dotenv').config();
 
 const __DEV__ = process.env.NODE_ENV == "development";
 

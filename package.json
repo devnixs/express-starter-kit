@@ -5,10 +5,11 @@
   "license": "MIT",
   "start": "nodemon server.js",
   "scripts": {
-    "front":"parcel watch --target frontend"
+    "front": "parcel watch --target frontend"
   },
   "dependencies": {
     "cookie-session": "2.0.0",
+    "dotenv": "^16.0.3",
     "ejs": "3.1.8",
     "express": "4.18.2",
     "longjohn": "0.2.12",
